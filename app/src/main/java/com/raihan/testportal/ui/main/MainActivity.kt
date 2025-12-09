@@ -13,8 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +26,7 @@ import androidx.navigation.navArgument
 import com.raihan.testportal.ui.firstpage.FirstPageScreen
 import com.raihan.testportal.ui.secondpage.SecondPageScreen
 import com.raihan.testportal.ui.theme.TestPortalTheme
+import com.raihan.testportal.ui.thirdpage.ThirdPageScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,17 +70,38 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             val name = backStackEntry.arguments?.getString("name") ?: ""
 
+                            val savedStateHandle = backStackEntry.savedStateHandle
+
+                            val selectedUserResult by savedStateHandle.getLiveData<String>("SELECTED_USER_NAME").observeAsState()
+
                             SecondPageScreen(
                                 userName = name,
+                                selectedUserName = selectedUserResult,
                                 onBackClick = {
                                     navController.popBackStack()
                                 },
-                                onChooseUserClick = {}
+                                onChooseUserClick = {
+                                    navController.navigate("third_screen")
+                                }
                             )
+                        }
 
+                        composable("third_screen") {
+                            ThirdPageScreen(
+                                onBackClick = {
+                                    navController.popBackStack()
+                                },
+                                onUserClick = { selectedName ->
+
+                                    navController.previousBackStackEntry
+                                        ?.savedStateHandle
+                                        ?.set("SELECTED_USER_NAME", selectedName)
+
+                                    navController.popBackStack()
+                                }
+                            )
                         }
                     }
-                    //FirstPageScreen()
                 }
             }
         }
