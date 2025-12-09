@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.raihan.testportal"
-    compileSdk = 36
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.raihan.testportal"
@@ -83,6 +83,8 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose) // Pakai versi TOML (2.8.4)
+    implementation(libs.androidx.lifecycle.viewmodel.compose) // Pakai versi TOML (2.8.4)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -97,13 +99,13 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.http.logging)
     implementation(libs.paging.runtime)
-    implementation(libs.groupie)
+    //implementation(libs.groupie)
     implementation(libs.coil)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui.unit)
     implementation(libs.androidx.animation)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.3")
+    //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3")
+    //implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.3")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
