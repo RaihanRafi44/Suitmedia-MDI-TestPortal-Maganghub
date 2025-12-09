@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,10 +36,9 @@ import androidx.compose.ui.unit.dp
 import com.raihan.testportal.R
 
 @Composable
-fun FirstPageScreen() {
-
-    val context = LocalContext.current
-
+fun FirstPageScreen(
+    onNextClick: (String) -> Unit = {}
+) {
     var name by remember { mutableStateOf("") }
     var palindromeText by remember { mutableStateOf("") }
 
@@ -55,13 +53,12 @@ fun FirstPageScreen() {
     }
 
     fun isPalindrome(text: String): Boolean {
-        val cleanedText = text.replace(Regex("[^A-Za-z]"), "").lowercase()
+        val cleanedText = text.replace(Regex("[^A-Za-z0-9]"), "").lowercase()
         return cleanedText == cleanedText.reversed()
     }
 
     val scrollState = rememberScrollState()
 
-    // Box digunakan untuk menumpuk Background Image di belakang konten
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -77,8 +74,8 @@ fun FirstPageScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState) // Mengaktifkan scroll
-                .padding(horizontal = 30.dp), // Margin horizontal global (30dp)
+                .verticalScroll(scrollState)
+                .padding(horizontal = 30.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -132,7 +129,13 @@ fun FirstPageScreen() {
             // Button Next
             CustomButton(
                 text = stringResource(id = R.string.text_next),
-                onClick = { }
+                onClick = {
+                    if (name.isEmpty()) {
+                        triggerDialog("Warning", "Please input your name")
+                    } else {
+                        onNextClick(name)
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(50.dp))
@@ -153,7 +156,6 @@ fun FirstPageScreen() {
     }
 }
 
-// Komponen Reusable untuk TextField agar kode lebih rapi
 @Composable
 fun CustomTextField(
     value: String,
@@ -165,17 +167,19 @@ fun CustomTextField(
         onValueChange = onValueChange,
         placeholder = { Text(text = hint, color = Color.Gray) },
         shape = RoundedCornerShape(12.dp),
+        textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
             focusedBorderColor = Color.Gray,
-            unfocusedBorderColor = Color.White
+            unfocusedBorderColor = Color.White,
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black,
         ),
         modifier = Modifier.fillMaxWidth()
     )
 }
 
-// Komponen Reusable untuk Button
 @Composable
 fun CustomButton(
     text: String,
@@ -185,10 +189,9 @@ fun CustomButton(
         onClick = onClick,
         modifier = Modifier
             .fillMaxWidth(),
-        // .height(50.dp), // Bisa diaktifkan jika ingin tinggi fix
-        shape = RoundedCornerShape(16.dp), // app:cornerRadius="16dp"
+        shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF2B637B) // Sesuaikan dengan warna @drawable/btn_background
+            containerColor = Color(0xFF2B637B)
         )
     ) {
         Text(
