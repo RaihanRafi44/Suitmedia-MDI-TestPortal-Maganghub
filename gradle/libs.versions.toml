@@ -16,7 +16,6 @@ mockk = "1.14.5"
 turbine = "1.2.1"
 core-testing = "2.2.0"
 http-logging = "5.1.0"
-groupie = "2.10.1"
 coil = "2.7.0"
 paging = "3.3.6"
 navigationCompose = "2.7.7"
@@ -62,9 +61,6 @@ mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "moc
 mockk-agent = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "core-testing" }
-
-# Grouphy
-groupie = { module = "com.github.lisawray.groupie:groupie", version.ref = "groupie" }
 
 # Paging
 paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }

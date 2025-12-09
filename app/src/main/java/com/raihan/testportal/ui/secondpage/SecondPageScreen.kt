@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -36,6 +34,7 @@ import com.raihan.testportal.R
 @Composable
 fun SecondPageScreen(
     userName: String = "John Doe",
+    selectedUserName: String? = null,
     onBackClick: () -> Unit = {},
     onChooseUserClick: () -> Unit = {}
 ) {
@@ -54,16 +53,15 @@ fun SecondPageScreen(
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
-                            //imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             painter = painterResource(R.drawable.ic_back),
                             contentDescription = "Back",
                             modifier = Modifier.size(18.dp),
-                            tint = Color.Black
+                            tint = Color.Blue
                         )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White // Sesuaikan dengan tema aplikasi
+                    containerColor = Color.White
                 )
             )
         }
@@ -97,7 +95,10 @@ fun SecondPageScreen(
             }
 
             Text(
-                text = stringResource(R.string.text_select_user),
+                text = if (selectedUserName.isNullOrEmpty())
+                    stringResource(R.string.text_select_user)
+                else
+                    selectedUserName,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,

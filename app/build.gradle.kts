@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.raihan.testportal"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.raihan.testportal"
@@ -62,6 +62,35 @@ android {
             )
         }
     }
+
+    flavorDimensions += "env"
+    productFlavors {
+        create("production") {
+            buildConfigField(
+                type = "String",
+                name = "BASE_URL",
+                value = "\"https://reqres.in/api/\"",
+            )
+            buildConfigField(
+                type = "String",
+                name = "API_KEY",
+                value = "\"reqres_9a7cb7710d3e49e28ceb8a76cddfc374\"",
+            )
+        }
+        create("integration") {
+            buildConfigField(
+                type = "String",
+                name = "BASE_URL",
+                value = "\"https://reqres.in/api/\"",
+            )
+            buildConfigField(
+                type = "String",
+                name = "API_KEY",
+                value = "\"reqres_9a7cb7710d3e49e28ceb8a76cddfc374\"",
+            )
+        }
+    }
+
     ktlint {
         android.set(false)
         ignoreFailures.set(true)
@@ -83,8 +112,8 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.runtime.compose) // Pakai versi TOML (2.8.4)
-    implementation(libs.androidx.lifecycle.viewmodel.compose) // Pakai versi TOML (2.8.4)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -99,17 +128,18 @@ dependencies {
     implementation(libs.koin.compose)
     implementation(libs.http.logging)
     implementation(libs.paging.runtime)
-    //implementation(libs.groupie)
+    implementation(libs.paging.compose)
     implementation(libs.coil)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui.unit)
     implementation(libs.androidx.animation)
-    //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.3")
-    //implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.3")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     implementation("androidx.compose.material3:material3:1.3.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
+    implementation("androidx.compose.material:material:1.7.5")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.36.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
